@@ -5,6 +5,9 @@ import morgan from "morgan";
 import { accessLogStream } from "./middleware/logger";
 import { toNodeHandler } from "better-auth/node";
 import { auth } from "./lib/auth";
+import { notFound } from "./middleware/notFound";
+import errorHandler from "./middleware/globalErrorHandler";
+import { routes } from "./routes";
 
 const app: Application = express();
 app.use(express.json());
@@ -12,12 +15,13 @@ app.use(cors());
 app.use(morgan("combined", { stream: accessLogStream }));
 app.all("/api/auth/*splat", toNodeHandler(auth));
 
+app.use("/api/v1", routes);
+
 app.get("/", (req: Request, res: Response) => {
   const date = new Date().toISOString();
   const serverHostname = os.hostname();
   const serverUptime = os.uptime();
   const serverPlatform = os.platform();
-
   const clientIp = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
   return res.status(200).json({
     success: true,
@@ -36,5 +40,8 @@ app.get("/", (req: Request, res: Response) => {
     },
   });
 });
+
+app.use(notFound);
+app.use(errorHandler);
 
 export default app;
