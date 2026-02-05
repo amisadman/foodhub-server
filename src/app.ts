@@ -3,11 +3,14 @@ import os from "os";
 import cors from "cors";
 import morgan from "morgan";
 import { accessLogStream } from "./middleware/logger";
+import { toNodeHandler } from "better-auth/node";
+import { auth } from "./lib/auth";
 
 const app: Application = express();
 app.use(express.json());
 app.use(cors());
 app.use(morgan("combined", { stream: accessLogStream }));
+app.all("/api/auth/*splat", toNodeHandler(auth));
 
 app.get("/", (req: Request, res: Response) => {
   const date = new Date().toISOString();
@@ -18,7 +21,7 @@ app.get("/", (req: Request, res: Response) => {
   const clientIp = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
   return res.status(200).json({
     success: true,
-    message: "Welcome to FoodHub",
+    message: "Welcome to Food Express",
     version: "1.0.0",
     clientDetails: {
       clientIP: clientIp,
