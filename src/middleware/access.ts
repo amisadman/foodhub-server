@@ -30,6 +30,7 @@ const access = (...roles: UserRole[]) => {
         role: session.user.role as string,
         emailVerified: session.user.emailVerified,
       };
+      console.log(req.user);
 
       if (roles.length && !roles.includes(req.user.role as UserRole)) {
         return sendResponse(res, 403, false, "Forbidden");

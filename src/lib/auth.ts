@@ -23,17 +23,17 @@ export const auth = betterAuth({
     autoSignIn: false,
     requireEmailVerification: true,
   },
-  emailVerification: {
-    sendOnSignUp: true,
-    sendVerificationEmail: async ({ user, url, token }, request) => {
-      try {
-        await sendEmail(user.name, user.email, token);
-      } catch (error: any) {
-        console.error(error);
-        throw error;
-      }
-    },
-  },
+  // emailVerification: {
+  //   sendOnSignUp: true,
+  //   sendVerificationEmail: async ({ user, url, token }, request) => {
+  //     try {
+  //       await sendEmail(user.name, user.email, token);
+  //     } catch (error: any) {
+  //       console.error(error);
+  //       throw error;
+  //     }
+  //   },
+  // },
   socialProviders: {
     google: {
       prompt: "select_account consent",
