@@ -1,4 +1,4 @@
-import { ProviderProfile } from "../../../generated/prisma/client";
+import { ProviderProfile, Role } from "../../../generated/prisma/client";
 import { prisma } from "../../lib/prisma";
 
 const getProviders = async () => {
@@ -20,12 +20,23 @@ const createProvider = async (
   data: Omit<ProviderProfile, "id" | "createdAt" | "updatedAt">,
   userId: string,
 ) => {
-  return await prisma.providerProfile.create({
-    data: {
-      ...data,
-      userId,
-    },
-  });
+  return await prisma.$transaction([
+    prisma.providerProfile.create({
+      data: {
+        ...data,
+        userId,
+      },
+    }),
+
+    prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        role: Role.PROVIDER,
+      },
+    }),
+  ]);
 };
 const editProvider = async (
   data: Partial<ProviderProfile>,
