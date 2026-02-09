@@ -22,9 +22,18 @@ export const seedAdmin = async () => {
       name: "Admin",
       email: env.adminEmail as string,
       password: env.adminPass as string,
-      role: Role.ADMIN,
+      role: Role.ADMIN
     },
   });
+
+  await prisma.user.update({
+    where:{
+        id: data.user.id as string
+    },
+    data:{
+        emailVerified : true
+    }
+  })
 
   console.log("Admin seeded successfully");
 
