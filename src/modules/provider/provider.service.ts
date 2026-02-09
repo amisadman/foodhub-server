@@ -15,6 +15,16 @@ const getUserIdWithProvider = async (id: string) => {
     },
   });
 };
+const getProviderIdWithUserId = async (id: string) => {
+  return await prisma.providerProfile.findFirstOrThrow({
+    where: {
+      userId: id,
+    },
+    select: {
+      id: true,
+    },
+  });
+};
 
 const createProvider = async (
   data: Omit<ProviderProfile, "id" | "createdAt" | "updatedAt">,
@@ -70,5 +80,6 @@ export const ProviderService = {
   createProvider,
   editProvider,
   getUserIdWithProvider,
+  getProviderIdWithUserId,
   deleteProvider,
 };

@@ -16,7 +16,7 @@ const access = (...roles: UserRole[]) => {
       });
 
       if (!session) {
-        return sendResponse(res, 401, false, "Forbidden");
+        return sendResponse(res, 401, false, "Forbidden, Session not found!");
       }
 
       if (!session.user.emailVerified) {
@@ -33,7 +33,12 @@ const access = (...roles: UserRole[]) => {
       console.log(req.user);
 
       if (roles.length && !roles.includes(req.user.role as UserRole)) {
-        return sendResponse(res, 403, false, "Forbidden");
+        return sendResponse(
+          res,
+          403,
+          false,
+          "Forbidden, You are not authorized",
+        );
       }
 
       next();
