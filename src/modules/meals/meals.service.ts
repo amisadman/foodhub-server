@@ -44,34 +44,40 @@ const getMealsById = async (id: string) => {
 };
 const getReviews = async (id: string) => {
   return await prisma.review.findMany({
-    where:{
-      mealId: id
-    },include: {
-      provider:{
-        select:{
+    where: {
+      mealId: id,
+    },
+    include: {
+      user: {
+        select: {
           name: true,
-          location: true
-        }
-      }
-    
-    }
-  })
+          email: true,
+        },
+      },
+      provider: {
+        select: {
+          name: true,
+          location: true,
+        },
+      },
+    },
+  });
 };
 
 const createReview = async (
-  data: Omit<Review, "id"|"comment" | "createdAt" | "updatedAt">,
-  mealId :string,
+  data: Omit<Review, "id" | "comment" | "createdAt" | "updatedAt">,
+  mealId: string,
   providerId: string,
-  userId :string
+  userId: string,
 ) => {
   return await prisma.review.create({
-    data:{
+    data: {
       ...data,
       mealId,
       providerId,
-      userId
-    }
-  })
+      userId,
+    },
+  });
 };
 const createMeal = async (
   data: Omit<Meal, "id" | "createdAt" | "updatedAt" | "providerId">,
@@ -110,5 +116,5 @@ export const MealsService = {
   editMeal,
   deleteMeal,
   getReviews,
-  createReview
+  createReview,
 };
