@@ -107,6 +107,7 @@ model ProviderProfile {
   updatedAt   DateTime @updatedAt
   meals       Meal[]
   reviews     Review[]
+  orders      Order[]
 
   @@map("ProviderProfile")
 }
@@ -138,12 +139,14 @@ model Meal {
 }
 
 model Order {
-  id              String      @id @default(uuid())
-  status          OrderStatus @default(PLACED)
+  id              String          @id @default(uuid())
+  status          OrderStatus     @default(PLACED)
   delivaryAddress String
   longitude       Float?
   latitude        Float?
   totalPrice      Float
+  providerId      String
+  provider        ProviderProfile @relation(fields: [providerId], references: [id], onDelete: Cascade)
 
   customerId String
 
@@ -168,9 +171,9 @@ model OrderItem {
   quantity Int
   price    Float
   orderId  String
-  order    Order  @relation(fields: [orderId], references: [id])
+  order    Order  @relation(fields: [orderId], references: [id],onDelete: Cascade)
   mealId   String
-  meal     Meal   @relation(fields: [mealId], references: [id])
+  meal     Meal   @relation(fields: [mealId], references: [id],onDelete: Cascade)
 
   @@map("OrderItem")
 }
@@ -190,4 +193,3 @@ model Review {
 
   @@map("Review")
 }
-

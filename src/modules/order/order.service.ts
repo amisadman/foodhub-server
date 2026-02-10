@@ -1,3 +1,4 @@
+import { OrderStatus } from "../../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 
 const hasOrdered = async (userId: string, mealId: string) => {
@@ -10,6 +11,17 @@ const hasOrdered = async (userId: string, mealId: string) => {
     },
     select: {
       mealId: true,
+    },
+  });
+};
+
+const editStatus = async (data: OrderStatus, id: string) => {
+  return await prisma.order.update({
+    where: {
+      id,
+    },
+    data: {
+      status: data,
     },
   });
 };
@@ -34,7 +46,6 @@ type TOrderData = {
   delivaryAddress: string;
   longitude?: number;
   latitude?: number;
-
   customerId: string;
 
   orderItems: {
@@ -44,7 +55,11 @@ type TOrderData = {
   }[];
 };
 
-const createOrder = async (data: TOrderData, customerId: string) => {
+const createOrder = async (
+  data: TOrderData,
+  customerId: string,
+  providerId: string,
+) => {
   const totalPrice = data.orderItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0,
@@ -57,6 +72,7 @@ const createOrder = async (data: TOrderData, customerId: string) => {
       latitude: data.latitude ?? null,
       totalPrice,
       customerId,
+      providerId,
       orderItems: {
         create: data.orderItems.map((item) => ({
           price: item.price,
@@ -67,10 +83,31 @@ const createOrder = async (data: TOrderData, customerId: string) => {
     },
   });
 };
+const getUserIdWithOrderId = async (id: string) => {
+  return await prisma.order.findUnique({
+    where: {
+      id,
+    },
+    select: {
+      customerId: true,
+    },
+  });
+};
+
+const deleteOrder = async (id: string) => {
+  return await prisma.order.delete({
+    where: {
+      id,
+    },
+  });
+};
 
 export const OrderService = {
   hasOrdered,
   getOrders,
   getOrderWithUserId,
-  createOrder
+  createOrder,
+  editStatus,
+  getUserIdWithOrderId,
+  deleteOrder
 };

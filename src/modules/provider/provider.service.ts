@@ -73,7 +73,26 @@ const deleteProvider = async (id: string) => {
     },
   });
 };
-
+const getProviderIdWithOrderId = async (id: string) => {
+  return await prisma.order.findUnique({
+    where: {
+      id,
+    },
+    select: {
+      providerId: true,
+    },
+  });
+};
+const getProviderIdWithMealId = async (id: string) => {
+  return await prisma.meal.findUnique({
+    where: {
+      id,
+    },
+    select: {
+      providerId: true,
+    },
+  });
+};
 export const ProviderService = {
   getProviders,
   getProviderWithId,
@@ -82,4 +101,6 @@ export const ProviderService = {
   getUserIdWithProvider,
   getProviderIdWithUserId,
   deleteProvider,
+  getProviderIdWithOrderId,
+  getProviderIdWithMealId
 };

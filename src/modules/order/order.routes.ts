@@ -10,5 +10,15 @@ router.get(
   OrderController.getOrder,
 );
 router.post("/", authorization(UserRole.USER), OrderController.createOrder);
+router.patch(
+  "/:id",
+  authorization(UserRole.PROVIDER),
+  OrderController.editStatus,
+);
+router.delete(
+  "/:id",
+  authorization(UserRole.USER),
+  OrderController.deleteOrder,
+);
 
 export const OrdersRoute = router;
