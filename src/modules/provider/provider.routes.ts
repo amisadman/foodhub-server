@@ -1,24 +1,24 @@
 import { Router } from "express";
 import { ProviderController } from "./provider.controller";
-import access, { UserRole } from "../../middleware/access";
+import authorization, { UserRole } from "../../middleware/authorization";
 
 const router: Router = Router();
 
 router.get("/", ProviderController.getProviders);
 router.post(
   "/",
-  access(UserRole.USER, UserRole.ADMIN),
+  authorization(UserRole.USER, UserRole.ADMIN),
   ProviderController.createProvider,
 );
 router.get("/:id", ProviderController.getProviderWithId);
 router.patch(
   "/:id",
-  access(UserRole.PROVIDER, UserRole.ADMIN),
+  authorization(UserRole.PROVIDER, UserRole.ADMIN),
   ProviderController.editProvider,
 );
 router.delete(
   "/:id",
-  access(UserRole.PROVIDER, UserRole.ADMIN),
+  authorization(UserRole.PROVIDER, UserRole.ADMIN),
   ProviderController.deleteProvider,
 );
 

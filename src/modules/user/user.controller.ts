@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { UserService } from "./user.service";
 import { sendResponse } from "../../utils/response";
-import { UserRole } from "../../middleware/access";
+import { UserRole } from "../../middleware/authorization";
 
 const getUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {

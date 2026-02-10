@@ -8,7 +8,7 @@ export enum UserRole {
   PROVIDER = "PROVIDER",
 }
 
-const access = (...roles: UserRole[]) => {
+const authorization = (...roles: UserRole[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       const session = await betterAuth.api.getSession({
@@ -48,4 +48,4 @@ const access = (...roles: UserRole[]) => {
   };
 };
 
-export default access;
+export default authorization;

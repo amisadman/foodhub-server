@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { ProviderService } from "./provider.service";
 import { sendResponse } from "../../utils/response";
 import { ProviderProfile } from "../../../generated/prisma/client";
-import { UserRole } from "../../middleware/access";
+import { UserRole } from "../../middleware/authorization";
 
 const getProviders = async (
   req: Request,
