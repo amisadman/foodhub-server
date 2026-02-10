@@ -12,7 +12,7 @@ FoodExpress is a premium food ordering platform that connects hungry customers w
 ## Client Repository
 
 The frontend client for this project is available at:
-[https://github.com/amisadman/papertrail-client](https://github.com/amisadman/foodexpress-client)
+[https://github.com/amisadman/foodexpress-client](https://github.com/amisadman/foodexpress-client)
 
 ---
 
