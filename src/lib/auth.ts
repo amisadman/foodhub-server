@@ -23,23 +23,51 @@ export const auth = betterAuth({
     autoSignIn: false,
     requireEmailVerification: true,
   },
-  // emailVerification: {
-  //   sendOnSignUp: true,
-  //   sendVerificationEmail: async ({ user, url, token }, request) => {
-  //     try {
-  //       await sendEmail(user.name, user.email, token);
-  //     } catch (error: any) {
-  //       console.error(error);
-  //       throw error;
-  //     }
-  //   },
-  // },
+
+  emailVerification: {
+    sendOnSignUp: true,
+    sendVerificationEmail: async ({ user, url, token }, request) => {
+      try {
+        await sendEmail(user.name, user.email, token);
+      } catch (error: any) {
+        console.error(error);
+        throw error;
+      }
+    },
+  },
   socialProviders: {
     google: {
       prompt: "select_account consent",
       accessType: "offline",
       clientId: env.googleClientID as string,
       clientSecret: env.googleClientSecret as string,
+    },
+  },
+  session: {
+    //1day
+    expiresIn: 60 * 60 * 60 * 24 ,
+    updateAge: 60 * 60 * 60 * 24  ,
+  },
+  advanced: {
+    // disableCSRFCheck: true,
+    useSecureCookies: false,
+    cookies: {
+      state: {
+        attributes: {
+          sameSite: "none",
+          secure: true,
+          httpOnly: true,
+          path: "/",
+        },
+      },
+      sessionToken: {
+        attributes: {
+          sameSite: "none",
+          secure: true,
+          httpOnly: true,
+          path: "/",
+        },
+      },
     },
   },
 });

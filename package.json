@@ -5,7 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/server.ts",
+    "dev": "tsx watch src/index.ts",
+    "build": "prisma generate && tsup",
+    "postinstall": "prisma generate",
     "seed:data": "tsx ./src/scripts/seedData.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -32,6 +34,7 @@
     "@types/morgan": "^1.9.10",
     "@types/node": "^25.2.0",
     "@types/nodemailer": "^7.0.9",
-    "prisma": "^7.3.0"
+    "prisma": "^7.3.0",
+    "tsup": "^8.5.1"
   }
 }

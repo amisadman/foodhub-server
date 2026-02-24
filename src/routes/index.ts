@@ -5,6 +5,7 @@ import { MealsRoute } from "../modules/meals/meals.route";
 import { OrdersRoute } from "../modules/order/order.routes";
 import { AnalyticsRoute } from "../modules/analytics/analytics.routes";
 import { CategoryRoutes } from "../modules/category/category.routes";
+import { AuthRoutes } from "../modules/auth/auth.routes";
 
 
 const router: Router = Router();
@@ -15,4 +16,6 @@ router.use("/meals", MealsRoute);
 router.use("/orders", OrdersRoute);
 router.use("/get-analytics",AnalyticsRoute);
 router.use("/categories", CategoryRoutes);
+
+router.use("/auth",AuthRoutes);
 export const routes = router;

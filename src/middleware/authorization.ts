@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { auth as betterAuth } from "../lib/auth";
+import { auth, auth as betterAuth } from "../lib/auth";
 import { sendResponse } from "../utils/response";
 
 export enum UserRole {
@@ -14,7 +14,6 @@ const authorization = (...roles: UserRole[]) => {
       const session = await betterAuth.api.getSession({
         headers: req.headers as any,
       });
-
       if (!session) {
         return sendResponse(res, 401, false, "Forbidden, Session not found!");
       }

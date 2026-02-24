@@ -8,10 +8,14 @@ import { auth } from "./lib/auth";
 import { notFound } from "./middleware/notFound";
 import errorHandler from "./middleware/globalErrorHandler";
 import { routes } from "./routes";
+import { env } from "./config/env";
 
 const app: Application = express();
 app.use(express.json());
-app.use(cors());
+app.use( cors({
+    origin: env.appUrl,
+    credentials: true,
+  }),);
 app.use(morgan("combined", { stream: accessLogStream }));
 app.all("/api/auth/*splat", toNodeHandler(auth));
 

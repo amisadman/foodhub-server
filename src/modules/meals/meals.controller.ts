@@ -8,6 +8,7 @@ import { OrderService } from "../order/order.service";
 
 const getMeals = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    // console.log(req.headers);
     const data = await MealsService.getMeals();
     return sendResponse(res, 200, true, "Meals fetched successfully", data);
   } catch (error) {
